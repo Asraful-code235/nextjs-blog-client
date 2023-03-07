@@ -25,6 +25,7 @@ export default function Home() {
   const { data: Blogs, isLoading } = useQuery({
     queryKey: ['blogs'],
     queryFn: () => getBlogs(),
+    keepPreviousData: true,
   });
 
   useEffect(() => {

@@ -26,6 +26,8 @@ const ArticleRequest = () => {
   const { data: comments, isLoading } = useQuery({
     queryKey: ['comments'],
     queryFn: () => getComments(),
+    staleTime: 2000,
+    keepPreviousData: true,
   });
 
   const handleSubmit = async (event) => {
@@ -146,6 +148,6 @@ export async function getStaticProps() {
       dehydratedState: dehydrate(queryClient),
     },
 
-    // revalidate: 10,
+    revalidate: 10,
   };
 }
