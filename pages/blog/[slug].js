@@ -51,13 +51,13 @@ const BlogDetailsPage = ({ blogPost }) => {
               <CategoryItem title={category} key={index} />
             ))}
           </ul>
-          <div className="flex items-center my-4">
+          <div className="flex items-center my-4 border-b w-fit">
             <Image
               src={urlFor(authorImage).url()}
               alt={authorName}
               width={50}
               height={50}
-              className="rounded-full mr-2"
+              className="rounded-full mr-2 "
             />
             <span>{authorName}</span>
             <span className="ml-4 text-gray-400">
