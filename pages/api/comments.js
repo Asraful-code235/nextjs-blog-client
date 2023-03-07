@@ -30,7 +30,13 @@ export default async function handler(req, res) {
       createdAt: new Date().toISOString(),
     });
 
-    return res.status(201).json({ success: true, data: result });
+    return res
+      .status(201)
+      .json({
+        success: true,
+        data: result,
+        message: "Thank you for you'r request.",
+      });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: 'Something went wrong' });
