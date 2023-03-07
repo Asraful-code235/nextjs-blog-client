@@ -51,7 +51,7 @@ const Header = () => {
   return (
     <nav className=" w-5/6 bg-white backdrop-filter  md:w-[70%] mx-auto flex justify-between items-center py-8">
       {/* logo */}
-      <Link href={''} className="w-44 ">
+      <Link href={'/'} className="w-44 ">
         <svg
           width="372.45000000000005"
           height="65.20268011193816"

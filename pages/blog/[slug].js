@@ -2,6 +2,7 @@ import Layout from '@/components/Layout';
 import { client, urlFor } from '@/lib/client';
 import Head from 'next/head';
 import Image from 'next/image';
+import moment from 'moment/moment';
 
 import CategoryItem from '@/components/CategoryItem';
 import SanityBlockContent from '@sanity/block-content-to-react';
@@ -59,6 +60,9 @@ const BlogDetailsPage = ({ blogPost }) => {
               className="rounded-full mr-2"
             />
             <span>{authorName}</span>
+            <span className="ml-4 text-gray-400">
+              {moment(_createdAt).format('MM-DD-YYYY')}
+            </span>
           </div>
         </div>
         <SanityBlockContent
