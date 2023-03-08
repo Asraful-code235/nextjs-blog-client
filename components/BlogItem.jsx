@@ -1,5 +1,6 @@
 import { client, urlFor } from '@/lib/client';
 import { useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -51,7 +52,7 @@ const BlogItemComponent = ({ blogItems }) => {
             By {authorName}
             <span className="relative before:absolute before:w-1 before:top-[10px] before:-left-2 before:h-1 before:rounded-full before:bg-semi-purple">
               {' '}
-              {blogItems._createdAt}
+              {moment(blogItems._createdAt).format('DD-MM-YYYY')}
             </span>
           </span>
         </div>

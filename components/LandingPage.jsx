@@ -14,13 +14,15 @@ const LandingPage = () => {
           about various topics; jobs, in particular. Here, you will find a lot
           of recruitment-related content in the context of Bangladesh.
         </p>
-        <Link
-          href={'/about'}
-          // onClick={() => alert('Button clicked!')}
-          className="px-8 py-3 bg-[#8f6ee5] rounded-md text-white uppercase hover:drop-shadow-md"
-        >
-          About Me
-        </Link>
+        <button>
+          <Link
+            href={'/about'}
+            // onClick={() => alert('Button clicked!')}
+            className="px-8 py-3 bg-[#8f6ee5] rounded-md text-white uppercase hover:drop-shadow-md"
+          >
+            About Me
+          </Link>
+        </button>
       </div>
       {/* right section */}
       <div>
@@ -29,7 +31,6 @@ const LandingPage = () => {
           alt="illustration-blog"
           width={600}
           height={600}
-          priority
           className="min-w-[350px] "
           blurDataURL="data:..."
           placeholder="blur"
