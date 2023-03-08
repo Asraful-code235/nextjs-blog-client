@@ -7,11 +7,21 @@ import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { useEffect, useState } from 'react';
 
-// get blogs from sanity
 async function getBlogs() {
-  const query = `*[_type == "post"]{author,title,slug,_id,_createdAt,mainImage,excerpt} `;
+  const query = `*[_type == "post"]{author,title,slug,_id,_createdAt,mainImage,excerpt,categories[]->{_id,title}} `;
   const response = await client.fetch(query);
   return response;
+}
+
+async function filterCategory(category) {
+  if (category === 'all') {
+    return getBlogs();
+  } else {
+    const query = `*[_type == "post" && references($categoryId)]`;
+    const params = { categoryId: category };
+    const posts = await client.fetch(query, params);
+    return posts;
+  }
 }
 
 const override = {
@@ -21,32 +31,40 @@ const override = {
 };
 
 export default function Home() {
-  const [data, setData] = useState([]);
-  const { data: Blogs, isLoading } = useQuery({
-    queryKey: ['blogs'],
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [posts, setPosts] = useState([]);
+  const { data: allPosts, isLoading } = useQuery({
+    queryKey: ['posts'],
     queryFn: () => getBlogs(),
     keepPreviousData: true,
   });
 
+  const { data: filteredPosts } = useQuery({
+    queryKey: ['filteredPosts', selectedCategory],
+    queryFn: () => filterCategory(selectedCategory),
+    enabled: selectedCategory !== 'all',
+  });
+
   useEffect(() => {
-    setData(Blogs);
-  }, [Blogs]);
+    if (selectedCategory === 'all') {
+      setPosts(allPosts || []);
+    } else {
+      setPosts(filteredPosts || allPosts || []);
+    }
+  }, [allPosts, filteredPosts, selectedCategory]);
+
+  const handleCategory = (category) => {
+    setSelectedCategory(category);
+  };
 
   if (isLoading) {
     return (
       <>
-        <ClipLoader
-          BeatLoader={true}
-          color={color}
-          loading={isLoading}
-          cssOverride={override}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
+        <div>Loading...</div>
       </>
     );
   }
+
   return (
     <Layout>
       <Head>
@@ -57,7 +75,11 @@ export default function Home() {
       </Head>
       <div>
         <LandingPage />
-        <BlogContent data={data} />
+        <BlogContent
+          data={posts}
+          setSelectedCategory={setSelectedCategory}
+          handleCategory={handleCategory}
+        />
       </div>
     </Layout>
   );
@@ -65,7 +87,7 @@ export default function Home() {
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['blogs'], () => getBlogs());
+  await queryClient.prefetchQuery(['posts'], () => getBlogs());
 
   return {
     props: {

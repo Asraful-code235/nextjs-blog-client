@@ -2,7 +2,7 @@ import { client, urlFor } from '@/lib/client';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import BlogItemComponent from './BlogItem';
 
 async function getCategory() {
@@ -11,7 +11,12 @@ async function getCategory() {
   return res;
 }
 
-const BlogContent = ({ data }) => {
+const BlogContent = ({
+  data,
+  setSelectedCategory,
+  isCategory,
+  handleCategory,
+}) => {
   const {
     data: Categories,
     isLoading,
@@ -19,6 +24,7 @@ const BlogContent = ({ data }) => {
   } = useQuery({
     queryKey: ['categories'],
     queryFn: () => getCategory(),
+    keepPreviousData: true,
   });
 
   return (
@@ -42,14 +48,24 @@ const BlogContent = ({ data }) => {
               <ul className="flex flex-wrap gap-2 text-semi-purple text-base mt-4">
                 {isLoading && 'Loading ...'}
                 {isError && 'Error'}
-                {Categories?.map((categoryItem) => (
-                  <li
-                    className="bg-gray-100 cursor-pointer px-2 py-2 rounded-lg capitalize hover:text-dark-purple hover:bg-gray-300"
-                    key={categoryItem._id}
-                  >
-                    {categoryItem.title}
-                  </li>
-                ))}
+                <li
+                  className="bg-gray-100 cursor-pointer px-2 py-2 rounded-lg capitalize hover:text-dark-purple hover:bg-gray-300"
+                  onClick={() => handleCategory('all')}
+                >
+                  All
+                </li>
+
+                {Categories?.map((categoryItem) => {
+                  return (
+                    <li
+                      onClick={() => handleCategory(categoryItem._id)}
+                      className="bg-gray-100 cursor-pointer px-2 py-2 rounded-lg capitalize hover:text-dark-purple hover:bg-gray-300"
+                      key={categoryItem._id}
+                    >
+                      {categoryItem.title}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

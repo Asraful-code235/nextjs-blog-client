@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const LandingPage = () => {
   return (
@@ -13,12 +14,13 @@ const LandingPage = () => {
           about various topics; jobs, in particular. Here, you will find a lot
           of recruitment-related content in the context of Bangladesh.
         </p>
-        <button
-          onClick={() => alert('Button clicked!')}
+        <Link
+          href={'/about'}
+          // onClick={() => alert('Button clicked!')}
           className="px-8 py-3 bg-[#8f6ee5] rounded-md text-white uppercase hover:drop-shadow-md"
         >
           About Me
-        </button>
+        </Link>
       </div>
       {/* right section */}
       <div>

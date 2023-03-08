@@ -7,13 +7,6 @@ import moment from 'moment/moment';
 import CategoryItem from '@/components/CategoryItem';
 import SanityBlockContent from '@sanity/block-content-to-react';
 
-async function getCategories(categories) {
-  const categoryIds = categories.map((category) => category._ref.split('-')[0]);
-  const query = `*[_id in $categoryIds]{ title }`;
-  const results = await client.fetch(query, { categoryIds });
-  return results.map((result) => result.title);
-}
-
 const BlogDetailsPage = ({ blogPost }) => {
   const {
     mainImage,

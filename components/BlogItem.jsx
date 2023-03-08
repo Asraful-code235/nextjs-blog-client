@@ -16,6 +16,7 @@ const BlogItemComponent = ({ blogItems }) => {
   const { data: AuthorData } = useQuery({
     queryKey: ['authorData', author],
     queryFn: () => authorDetails(author),
+    keepPreviousData: true,
   });
 
   const authorName = AuthorData?.map((i, index) => i.name);
